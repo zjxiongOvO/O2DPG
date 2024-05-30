@@ -13,6 +13,8 @@ struct MetricResult {
   bool lowerIsBetter = true;
   float proposedThreshold{};
   std::string ncCode;
+  // new add
+  std::vector<std::string> annotations = {};
 };
 
 struct NCCodes
@@ -33,6 +35,18 @@ struct NCCodes
     return code == SANE;
    }
 };
+
+//new add
+struct AnnotationType
+{
+  typedef int TYPE;
+  static constexpr TYPE SANE = 0;
+  static constexpr TYPE HIGH_RELATIVE_ERRORS = 1;
+  static constexpr TYPE Last = HIGH_RELATIVE_ERRORS;
+
+  static constexpr const char* sTypes[Last + 1] = {"", "high relative errors"};
+};
+
 
 // Wrapping the calculation of a metric, making sure to set and return the MetricResult object
 struct Metric
@@ -130,8 +144,16 @@ struct MetricRunner
     }
   }
 
+  // 
+  int checkAnnotation(TH1* hA, TH1* hB, NCCodes::CODE code)
+  {
+    return 1;
+  }
+
   void evaluate(TH1* hA, TH1* hB, NCCodes::CODE code)
   {
+    std::vector<std::string> annotations;
+    annotations.push_back(AnnotationType::sTypes[checkAnnotation(hA, hB, code)]);
     for (auto& metric : metricsEnabled) {
       if (!metric) {
         // here is a nullptr so it is not active
@@ -139,6 +161,7 @@ struct MetricRunner
       }
       metricResults.push_back(metric->evaluate(hA, hB, code));
     }
+    metricResults.back().annotations = annotations;
   }
 
   int countEnabled()

@@ -91,6 +91,7 @@ class Metric:
         self.proposed_threshold = proposed_threshold
         self.lower_is_better = lower_is_better
         self.non_comparable_note = non_comparable_note
+        self.annotations = None
         if in_dict is not None:
             self.from_dict(in_dict)
 
@@ -104,7 +105,8 @@ class Metric:
                 "comparable": self.comparable,
                 "proposed_threshold": self.proposed_threshold,
                 "lower_is_better": self.lower_is_better,
-                "non_comparable_note": self.non_comparable_note}
+                "non_comparable_note": self.non_comparable_note,
+                "annotation": self.annotations}
 
     def from_dict(self, in_dict):
         self.object_name = in_dict["object_name"]
@@ -114,6 +116,7 @@ class Metric:
         self.proposed_threshold = in_dict["proposed_threshold"]
         self.lower_is_better = in_dict["lower_is_better"]
         self.non_comparable_note = in_dict["non_comparable_note"]
+        self.annotations = in_dict["annotation"]
 
 
 class TestLimits:

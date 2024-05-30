@@ -270,6 +270,24 @@ void WriteMetricResultsToJson(std::ofstream& json, MetricResult const& metricRes
   } else {
     json << "      \"value\": " << metricResult.value << ",\n";
   }
+  //new add
+  // metricResult.annotations.size() == 0 ? json << "      \"annotation\": []" << ",\n" : json << "      \"annotation\": []" << ",\n";
+  if (metricResult.annotations.size() == 0){
+    json << "      \"annotation\": []" << ",\n";
+  } else {
+    json << "      \"annotation\": [";
+    for (size_t i = 0; i < metricResult.annotations.size(); i++) {
+      json << "\"" << metricResult.annotations[i] << "\"";
+      if (i < metricResult.annotations.size() - 1) {
+        json << ", ";
+      }
+    }
+    json << "],\n";
+    // for (auto& annotation : metricResult.annotations) {
+      // json << "\"" << annotation << "\", ";
+    // }
+  } 
+  // 
   json << "      \"comparable\": " << metricResult.comparable << "\n    }";
 }
 

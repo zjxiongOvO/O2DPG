@@ -159,6 +159,7 @@ def extract_and_flatten_impl(input_filenames, target_filename, include_file_dire
         f = abspath(f)
         print(f"  {f}")
         cmd = f"\\(\\\"{f}\\\",\\\"{target_filename}\\\",\\\"{reference_extracted}\\\",\\\"{include_file_directories}\\\",\\\"{json_extracted}\\\"\\)"
+        print(f"  {cmd}")
         cmd = f"root -l -b -q {ROOT_MACRO_EXTRACT}{cmd}"
         ret = utils.run_macro(cmd, log_file_name, cwd)
         if ret != 0:

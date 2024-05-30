@@ -54,9 +54,15 @@ int ExtractAndFlatten(std::string const& filename, std::string const& outputFile
   TFile extractedFile(outputFilename.c_str(), "UPDATE");
   // collect the names so that we can dump them to a JSON file afterwards
   std::vector<std::string> collectNames;
-  ExtractAndFlattenDirectory(&inFile, &extractedFile, collectNames, basedOnTree, "", includeDirs);
+  if ( basedOnTree=="None"){
+    ExtractAndFlattenDirectory(&inFile, &extractedFile, collectNames, "", "", includeDirs);
+  } else {
+    ExtractAndFlattenDirectory(&inFile, &extractedFile, collectNames, basedOnTree, "", includeDirs);
+  }
+  // ExtractAndFlattenDirectory(&inFile, &extractedFile, collectNames, basedOnTree, "", includeDirs);
   inFile.Close();
   extractedFile.Close();
+  std::cout<<"Create json"<<std::endl;
 
   if (!outJson.empty()) {
     std::ofstream jsonout(outJson.c_str());
