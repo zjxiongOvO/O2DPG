@@ -13,7 +13,6 @@ struct MetricResult {
   bool lowerIsBetter = true;
   float proposedThreshold{};
   std::string ncCode;
-  // new add
   std::vector<std::string> annotations = {};
 };
 
@@ -36,7 +35,6 @@ struct NCCodes
    }
 };
 
-//new add
 struct AnnotationType
 {
   typedef int TYPE;
@@ -144,7 +142,6 @@ struct MetricRunner
     }
   }
 
-  // 
   int checkAnnotation(TH1* hA, TH1* hB, NCCodes::CODE code)
   {
     return 1;

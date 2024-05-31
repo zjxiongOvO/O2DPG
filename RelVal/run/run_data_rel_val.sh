@@ -39,14 +39,14 @@ rel_val_qc()
 
     echo "Full RelVal to ${output_all}" | tee -a ${LOGFILE}
     ${O2DPG_ROOT}/RelVal/o2dpg_release_validation.py rel-val -i ${file1} -j ${file2} -o ${output_all} --labels ${label1} ${label2} 2>&1 | tee -a ${LOGFILE}
-    # echo "Extract BAD from ${output_all} and write to ${output_all_bad}" | tee -a ${LOGFILE}
-    # ${O2DPG_ROOT}/RelVal/o2dpg_release_validation.py inspect --path ${output_all} --output ${output_all_bad} --interpretations BAD >> ${LOGFILE} 2>&1
-    # echo "RelVal per detector..." | tee -a ${LOGFILE}
-    # for det in CPV EMC FDD FT0 FV0 GLO ITS MCH MFT MID PHS TOF TPC TRD ZDC ; do
-    #     echo "...for ${det} to ${output_det}_${det}, checking for include pattern int_${det}_ ; the latter might need to be changed depending on the internal file structure of the QC ROOT file" | tee -a ${LOGFILE}
-    #     ${O2DPG_ROOT}/RelVal/o2dpg_release_validation.py inspect --path ${output_all} --output ${output_det}_${det} --include-patterns "int_${det}_" >> ${LOGFILE} 2>&1 &
-    #     wait_for_jobs 3
-    # done
+    echo "Extract BAD from ${output_all} and write to ${output_all_bad}" | tee -a ${LOGFILE}
+    ${O2DPG_ROOT}/RelVal/o2dpg_release_validation.py inspect --path ${output_all} --output ${output_all_bad} --interpretations BAD >> ${LOGFILE} 2>&1
+    echo "RelVal per detector..." | tee -a ${LOGFILE}
+    for det in CPV EMC FDD FT0 FV0 GLO ITS MCH MFT MID PHS TOF TPC TRD ZDC ; do
+        echo "...for ${det} to ${output_det}_${det}, checking for include pattern int_${det}_ ; the latter might need to be changed depending on the internal file structure of the QC ROOT file" | tee -a ${LOGFILE}
+        ${O2DPG_ROOT}/RelVal/o2dpg_release_validation.py inspect --path ${output_all} --output ${output_det}_${det} --include-patterns "int_${det}_" >> ${LOGFILE} 2>&1 &
+        wait_for_jobs 3
+    done
     wait_for_jobs 1
 }
 
