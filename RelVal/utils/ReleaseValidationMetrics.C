@@ -142,15 +142,18 @@ struct MetricRunner
     }
   }
 
-  int checkAnnotation(TH1* hA, TH1* hB, NCCodes::CODE code)
+  std::vector<std::string> checkAnnotation(TH1* hA, TH1* hB, NCCodes::CODE code)
   {
-    return 1;
+    std::vector<std::string> annotations;
+    // check for high relative errors
+    // develop a function to check for high relative errors here
+    annotations.push_back(AnnotationType::sTypes[AnnotationType::HIGH_RELATIVE_ERRORS]);
+    
+    return annotations;
   }
 
   void evaluate(TH1* hA, TH1* hB, NCCodes::CODE code)
   {
-    std::vector<std::string> annotations;
-    annotations.push_back(AnnotationType::sTypes[checkAnnotation(hA, hB, code)]);
     for (auto& metric : metricsEnabled) {
       if (!metric) {
         // here is a nullptr so it is not active
@@ -158,7 +161,7 @@ struct MetricRunner
       }
       metricResults.push_back(metric->evaluate(hA, hB, code));
     }
-    metricResults.back().annotations = annotations;
+    metricResults.back().annotations = checkAnnotation(hA, hB, code);
   }
 
   int countEnabled()

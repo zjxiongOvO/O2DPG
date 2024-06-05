@@ -227,6 +227,9 @@ def plot_overlays_root(rel_val, file_config_map1, file_config_map2, out_dir, plo
                 continue
             metric_legend_entries[metric.name] += f", {result.interpretation}"
 
+        # add annotation to metric_legend
+        metric_legend_entries["annotation"] = ", ".join(metric.annotations)
+
         h1 = file1.Get(object_name)
         h2 = file2.Get(object_name)
 
